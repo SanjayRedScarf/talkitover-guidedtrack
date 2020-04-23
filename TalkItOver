@@ -1,0 +1,294 @@
+
+
+>> encouragingnoise = ["I'm still listening, so feel free to say more.", "Go on, I'm still here.", "Keep talking, I'll be here for as long as you need me.", "I hear you. Keep going, I'm really happy for you to continue talking for as long as you need.", "Thanks for sharing this. Keep talking, I'm still here, and I'm still listening.", "I'm still here, so keep talking for as long as you need", "I'm still here, keep talking.", "Hmmm, thanks for sharing that. Keep talking, I'm still here", "Please keep on talking, I'm still here.", "Keep going, I'm still here", "Thanks for sharing. I'm still listening, so if you have more to say, please go on", "I hear you. Remember, this is like a sort of online journal, just use this as a space to write about what's on your mind and explore your thoughts. I'm just here to listen. Keep talking...", "Keep talking, I'm listening to you.", "Thanks for sharing, keep talking...", "I'm still listening, go on...", "I hear you, thank you for sharing, please keep talking" ]
+-- I can't remember what this variable was for. Might not need it any more?
+>> answerSubmitted = 0
+>> somethingSpecific = 0
+
+
+
+*header: Welcome to TIO! :-)
+
+TIO stands for Talk It Over -- this is a place where you can talk about whatever is on your mind.
+
+This is a very early prototype! Thank you for trying it.
+
+If you're feeling low, type what's on your mind and I'll listen to you :-)
+
+I'm not a very clever piece of software and I might not understand everything you say, but I'm here for you for as long as you need. And I won't judge you. So if you think that talking things through with someone in a safe confidential space might help, have a go.
+
+
+*question: Let's start with you just rating how you feel on a scale from 1 to 10, where 1 is terrible and 10 is great. Just move the slider to get to the right answer
+	*type: slider
+	*before: Terrible
+	*after: Great
+	*save: initialHappinessScore
+	1
+	2
+	3
+	4
+	5
+	6
+	7
+	8
+	9
+	10
+	
+
+*if: initialHappinessScore > 8
+	Seems like you're feeling okay!
+	I'm here to help people who are feeling low or have something on their minds. But you're feeling good, which is great!
+
+	Why don't you go out and have fun! Or if you want to help others who are feeling low, check out these [google search results|https://www.google.co.uk/search?q=volunteering+opportunities+near+me+mental+health+sane+mind+rethink+samaritans&oq=volunteering+opportunities+near+me+mental+health+sane+mind+rethink+samaritans&aqs=chrome..69i57.10476j0j9&sourceid=chrome&ie=UTF-8] to find some volunteering opportunities.
+	
+	Or maybe you're just here to check out this site, which is cool. Why don't you try again, but pretend you're feeling sad this time! :-) (you can probably do this clicking on Ctrl+r, but don't trust anything I say, I'm just a pretty unintelligent piece of software!)
+	*quit
+
+
+
+*if: (initialHappinessScore <= 8) and (initialHappinessScore > 3)
+
+	*question: Sounds like you're not quite on top of the world -- shame about that. Is there anything specific on your mind at the moment?
+		Yes
+			*goto: somethingSpecificYes	
+		No
+			*goto: somethingSpecificNo	
+
+
+-- AREA FOR IMPROVEMENT (MINOR): One possibility is to randomise the initial empathic noise "oh dear sounds like you're feeling really low" with randomised/shuffled option (?)
+
+*if: initialHappinessScore <= 3
+
+	*question: Oh dear, sounds like you're feeling really low. Is there anything specific on your mind at the moment?
+		Yes
+			*goto: somethingSpecificYes	
+		No
+			*goto: somethingSpecificNo	
+
+
+*label: somethingSpecificYes
+>> somethingSpecific = 1
+
+*question: I'd love to hear you say more about that. Before we do that, would you like me to explain about how this chatbot works?
+	Yes, tell me how this bot works
+		*goto: startOfExplanation
+					
+	--No, skip this, I've read the explanation before
+	--	*goto: userExploresThoughts
+
+
+
+*label: somethingSpecificNo
+
+*question: Do you feel this way often?
+	Yes
+		*question: Feeling this way often sounds pretty rubbish. I'm sorry about that. How long have been like this?
+			*throwaway
+		*question: I'd like to hear more about that. Before we do that, I'd like to quickly explain how this chatbot works, if that's OK?
+			Yes, tell me how this bot works
+				*goto: startOfExplanation
+	No
+		*question: I'd like to explore this more with you. Before we do that, I'd like to quickly explain how this chatbot works, if that's OK?
+			Yes, tell me how this bot works
+				*goto: startOfExplanation
+
+
+
+-- START OF EXPLANATION OF HOW THIS BOT WORKS	
+-- START OF EXPLANATION OF HOW THIS BOT WORKS	
+-- AREA FOR IMPROVEMENT (MINOR): Some of this could be improved
+	
+*label: startOfExplanation	
+
+So let me be totally honest: I'm a pretty simple piece of software. So please do keep talking to me, but I'm afraid I won't do a very good job of understanding. 
+
+Instead think of this as being more like writing a journal, but as you keep writing, I'll be here to encourage you to keep talking.  
+*question: Are you still OK to talk with me, even though I'm only simple?
+	Yes, I'll talk with you, even though you're only a simple piece of software
+
+We offer a confidential, anonymised service.
+
+You remain anonymous by using this -- we don't have any way of tracking you down, knowing who you are, or linking what you write to you.
+
+If you select the *"anonymous"* option, our boffins may see your text to help us improve the way this software works, but you'll remain anonymous.
+
+If you choose the *"confidential"* option, your text won't be stored at all, and no human will see what you write. (And anything you have written until now has also been deleted before any person sees it)
+
+No matter what you choose, if you say that you're unsafe nobody will be able to act on that information, so use this space to explore your thoughts, not to seek emergency assistance. 
+
+*question: Would you like to use the anonymous or the confidential version of this bot?
+	Anonymous - nobody will be able to link your words to you, and your words may help us to improve the service
+	Confidential - your text will be immediately deleted
+	*save: confidentialityPreference
+	
+*if: confidentialityPreference = "Anonymous - nobody will be able to link your words to you, and your words may help us to improve the service"
+	>> shortConfidentialityPreference = "Anonymous"
+
+	
+*if: confidentialityPreference = "Confidential - your text will be immediately deleted"
+	>> shortConfidentialityPreference = "Confidential"
+
+
+
+OK we've taken a note of that.
+
+You remember saying how you felt on scale from 1 to 10 at the start? I'd like to ask you the same thing at the end so I know if we're helping.
+
+When you're finished using the bot, please type "stop" in the text field where the responses go, this will take you to the super-quick final survey. Please please do this, because we want to know if we are helping.
+
+*question: Do you agree to fill in the quick, one-question survey by writing "stop" in the text field
+	Yes, I agree to fill in the quick survey at the end. I'll type "stop" in a text field rather than closing the window.
+
+
+*goto: userExploresThoughts
+
+-- END OF EXPLANATION OF HOW THIS BOT WORKS
+-- END OF EXPLANATION OF HOW THIS BOT WORKS
+
+
+
+-- NOT SURE IF THIS BIT IS STILL BEING USED?????
+*label: skipExplanationPlaceAfterAskingHowLong
+
+*question: OK, so you told how you're feeling on a scale from 1 to 10, and you've told me how long you've been feeling this way. Now, perhaps you could start telling me about what's on your mind. Just use this as a space to explore your thoughts -- I'm just here to listen.
+	
+	*throwaway
+
+
+*label: userExploresThoughts
+-- AREA FOR IMPROVEMENT (MAJOR): This area is still quite simple. Could maybe make this better? Not sure if this is possible within guided track though?
+
+
+-- NOTE -- JUST TESTED THIS -- I THINK I WENT DOWN THIS PATH IN THE TEST DONE ON 24TH AT 1710 (WHICH IS RECORDED IN THE SYSTEM AS 1810 UTC). HOWEVER THE CODE SEEMS TO HAVE THROWN THE DATA AWAY
+-- ALSO IN THE TEST DONE AT 1818 (OR WHAT THE SYSTEM CALLS 1718) i ENTERED SOME DATA FOR THE FIRST TEXT QUESTION, AND THIS WAS KEPT, BUT I ALSO ENTERED SOME DATA FOR THE SECOND QUESTION, AND THIS SEEMS NOT TO HAVE BEEN KEPT, AND I DON'T KNOW WHY
+
+*if: somethingSpecific = 1
+	*if: shortConfidentialityPreference = "Anonymous"
+		*question: You said before that there was something specific on your mind. Could you please tell me more about that? Feel free to use this as a space to explore your thoughts -- I'm just here to listen.
+			*type: paragraph
+			*save: answer
+			--*throwaway
+		*if: (answer = "stop") or (answer = "Stop") or (answer = "stop.") or (answer = "Stop.") or (answer = "STOP")
+			*goto: finalSurvey
+	
+	*if: shortConfidentialityPreference = "Confidential"
+		*question: You said before that there was something specific on your mind. Could you please tell me more about that? Feel free to use this as a space to explore your thoughts -- I'm just here to listen.
+			*type: paragraph
+			*save: answer
+			*throwaway
+		*if: (answer = "stop") or (answer = "Stop") or (answer = "stop.") or (answer = "Stop.") or (answer = "STOP")
+			*goto: finalSurvey
+
+
+
+*if: somethingSpecific = 0
+	*if: shortConfidentialityPreference = "Anonymous"
+		*question: OK, so I've learned that you're not feeling all that great, but it's not that there is something specific that's bothering you. Would you like to say more about how you're feeling now? Please just use this as a space to explore whatever is on your mind. I'm just here to listen.
+			*type: paragraph
+			*save: answer
+			--*throwaway
+		*if: (answer = "stop") or (answer = "Stop") or (answer = "stop.") or (answer = "Stop.") or (answer = "STOP")
+			*goto: finalSurvey
+
+	*if: shortConfidentialityPreference = "Confidential"
+		*question: OK, so I've learned that you're not feeling all that great, but it's not that there is something specific that's bothering you. Would you like to say more about how you're feeling now? Please just use this as a space to explore whatever is on your mind. I'm just here to listen.
+			*type: paragraph
+			*save: answer
+			*throwaway
+		*if: (answer = "stop") or (answer = "Stop") or (answer = "stop.") or (answer = "Stop.") or (answer = "STOP")
+			*goto: finalSurvey
+
+*label: randomEncouragingNoise
+
+>> encouragingnoise.shuffle
+
+*if: shortConfidentialityPreference = "Anonymous"
+	*question: {encouragingnoise[1]}
+		*tip: And if you want to stop, please just type 'stop' in the text field
+		*type: paragraph
+		*save: answer
+		--*throwaway
+	*if: (answer = "stop") or (answer = "Stop") or (answer = "stop.") or (answer = "Stop.") or (answer = "STOP")
+		*goto: finalSurvey
+	*if: not(answer="stop")
+		*goto: randomEncouragingNoise
+
+
+
+*if: shortConfidentialityPreference = "Confidential"
+	*question: {encouragingnoise[1]}
+		*tip: And if you want to stop, please just type 'stop' in the text field
+		*type: paragraph
+		*save: answer
+		*throwaway
+	*if: (answer = "stop") or (answer = "Stop") or (answer = "stop.") or (answer = "Stop.") or (answer = "STOP")
+		*goto: finalSurvey
+	*if: not(answer="stop")
+		*goto: randomEncouragingNoise
+
+
+
+
+-- I don't think this is being used???
+>> answerSubmitted = 1
+
+
+
+
+*label: finalSurvey
+
+Thank you for using the Talk It Over chatbot!
+
+*if: shortConfidentialityPreference = "Confidential"
+	If you selected the "confidential" option earlier, any text you have written up until now has been deleted and not seen by a human. We have, however, kept your answer to the question about how you felt on a scale from 1 to 10. We would like to answer that question again now, and we will include one follow-up feedback question (your answer to that follow-up feedback question will be kept)
+
+
+*question: How would you say you're feeling now?
+	*tip: Just as a reminder, when this question was asked at the start, the answer you gave was {initialHappinessScore}.
+	*type: slider
+	*before: Terrible
+	*after: Great
+	*save: followUpHappinessScore
+	1
+	2
+	3
+	4
+	5
+	6
+	7
+	8
+	9
+	10
+
+>> happinessChange = (followUpHappinessScore - initialHappinessScore)
+	
+
+-- OLD VERSION
+--*question: Optional final question: if you have any comments to help us improve this bot, please make them here
+--	*tip: This is the only text field where the text will be stored and viewed by human at some point. If you don't want to fill this in, feel free to exit at this point -- this is the final question.
+--	*type: paragraph
+
+
+
+*if: happinessChange < 0
+	Oh no! I'm so sorry you're feeling worse than you were at the start! :-(
+	*question: Please tell us why we made things worse, and what we could do better in future
+		*tip: This text will be stored and viewed by human at some point (even if you selected the confidential option). 
+		*type: paragraph
+
+*if: happinessChange = 0
+	I'm sorry this bot didn't make things any better for you
+	*question: Optional final question - Please tell us whether we met your expectations, and any suggestions for improvement
+		*tip: This text will be stored and viewed by human at some point (even if you selected the confidential option). If you don't want to fill this in, feel free to exit at this point -- this is the final question.
+		*type: paragraph
+
+*if: happinessChange > 0
+	I'm glad you're feeling better than you did at the start
+	*question: Optional final question: if you have any comments to help us improve this bot, please make them here
+		*tip: This text will be stored and viewed by human at some point (even if you selected the confidential option). If you don't want to fill this in, feel free to exit at this point -- this is the final question.
+		*type: paragraph
+
+
+
+
+
